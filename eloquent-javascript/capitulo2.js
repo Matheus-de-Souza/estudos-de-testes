@@ -1,8 +1,8 @@
 
 var R = require("ramda");
 
-const isEven = (n) => n % 2 === 0 ;
-const isOdd = (n) => !isEven(n);
+const isOdd = (n) => n % 2 === 0;
+const isEven = (n) => !isOdd(n);
 
 function solucaoNaoFuncional(tamanho) {
 	var retorno = "";
@@ -24,25 +24,35 @@ function solucaoNaoFuncional(tamanho) {
 	return retorno;
 }
 
-function solucaoFuncional(tamanho) {
-	const isRowEven = R.curry((tamanho, n) => { return isEven(Math.floor(n / Math.sqrt(tamanho))); });
-	const isRowOdd  = R.curry((tamanho, n) => { return !isRowEven(tamanho,n); });
+function solucaoFuncional(largura) {
 
-	const returnsSharp = (n) => "#";
-	const returnsSpace = (n) => " ";
-	
+	const isLastCellOfRow = R.curry((width, n) => { return (n % width) === (width - 1); });
+
+	const getRow    = R.curry((width, n) => { return Math.floor(n / width); });
+	const isRowEven = R.curry((width, n) => { return isEven(getRow(width, n)); });
+	const isRowOdd  = R.curry((width, n) => { return !isRowEven(width, n); });
+
+	const returnsSharp     = () => "#";
+	const returnsSpace     = () => " ";
+	const returnsSharpAndBreakLine = () => "#\n";
+	const returnsSpaceAndBreakLine = () => " \n";
+
 	const result = R.pipe(
+		R.multiply(largura),
+		R.add(1),
 		R.range(0),
 		R.map(
 			R.cond([
-				[R.and(isRowEven(tamanho), isEven), returnsSharp],
-				[R.and(isRowEven(tamanho), isOdd), returnsSpace],
-				[R.and(isRowOdd(tamanho), isEven), returnsSpace],
-				[R.and(isRowOdd(tamanho), isOdd), returnsSharp],
-				[R.T, returnsSharp]
+				[R.allPass([isRowEven(largura), isLastCellOfRow(largura)]), returnsSharpAndBreakLine],
+				[R.allPass([isRowOdd(largura), isLastCellOfRow(largura)]), returnsSpaceAndBreakLine],
+				[R.allPass([isRowOdd(largura), isOdd]), returnsSharp],
+				[R.allPass([isRowEven(largura), isEven]), returnsSharp],
+				[R.T, returnsSpace]
 			])
-		)
-	)(tamanho);
+		),
+		R.join(''),
+		R.dropLast(2)
+	)(largura);
 
 	return result;
 }
