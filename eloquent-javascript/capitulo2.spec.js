@@ -54,7 +54,7 @@ describe("Vamos provardes?", function() {
 		expect(resultado).toEqual(tabuleiro);
 	});
 
-	xit("gera tabuleiro 8x8", function () {
+	it("gera tabuleiro 8x8", function () {
 
 		var resultado = capitulo2.geraTabuleiro(8),
 				tabuleiro = "# # # # " + '\n' +
