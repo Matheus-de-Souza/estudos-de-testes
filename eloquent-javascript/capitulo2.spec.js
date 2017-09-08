@@ -3,8 +3,52 @@ var usarSolucaoFuncional = true;
 
 var capitulo2 = require("./capitulo2.js")(usarSolucaoFuncional);
 
-/**
- * === Tabuleiro de Xadrez ===
+/**  === Criando um Triângulo com Loop ===
+ * 
+ * Escreva um programa que faça 7 chamadas a console.log() para retornar o seguinte triângulo.
+ * 
+ * #
+ * ##
+ * ###
+ * ####
+ * #####
+ * ######
+ * #######
+ * 
+ */
+
+describe("Gerar o triângulo", function() {
+
+	it("define a função", function () {
+		expect(capitulo2.geraTriangulo).toBeDefined();
+	});
+
+	it("gera sustenidos", function () {
+		var resultado = capitulo2.geraTriangulo();
+		expect(resultado).toMatch(/[#]+/);
+	});
+
+	it("gera triangulo pequeno", function () {
+		var resultado = capitulo2.geraTriangulo(3),
+				triangulo = '#'  + '\n' + 
+										'##' + '\n' +
+										'###';
+		expect(resultado).toEqual(triangulo);
+	});
+
+	it("gera triangulo grande", function () {
+		var resultado = capitulo2.geraTriangulo(5),
+				triangulo = '#'  + '\n'   +
+										'##' + '\n'   +
+										'###' + '\n'  +
+										'####' + '\n' +
+										'#####';
+		expect(resultado).toMatch(triangulo);
+	});
+
+});
+
+/** === Tabuleiro de Xadrez ===
  * 
  * Escreva um programa que cria uma string que representa uma grade 8x8,
  * usando novas linhas para separar os caracteres. 
@@ -24,7 +68,7 @@ var capitulo2 = require("./capitulo2.js")(usarSolucaoFuncional);
  * 
  */
 
-describe("Vamos provardes?", function() {
+describe("Gerar o tabuleiro de xadrez", function() {
 
 	it("define a função", function () {
 		expect(capitulo2.geraTabuleiro).toBeDefined();
@@ -55,7 +99,6 @@ describe("Vamos provardes?", function() {
 	});
 
 	it("gera tabuleiro 8x8", function () {
-
 		var resultado = capitulo2.geraTabuleiro(8),
 				tabuleiro = "# # # # " + '\n' +
 										" # # # #" + '\n' +

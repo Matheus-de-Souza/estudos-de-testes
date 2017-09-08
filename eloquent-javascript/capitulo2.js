@@ -4,7 +4,47 @@ var R = require("ramda");
 const isOdd = (n) => n % 2 === 0;
 const isEven = (n) => !isOdd(n);
 
-function solucaoNaoFuncional(tamanho) {
+function geraTriangulo (alturaTriangulo) {
+	var retorno = "";
+	
+	if (!alturaTriangulo) {
+		alturaTriangulo = 3;
+	}
+
+	for (var i = 0; i < alturaTriangulo; i++) {
+		for (var j = 0; j <= i; j++) {
+			retorno += "#";
+		}
+		retorno += "\n";
+	}
+
+	retorno = retorno.slice(0, -1);
+
+	return retorno;
+}
+
+function geraTrianguloFuncional (alturaTriangulo) {
+
+	if (!alturaTriangulo) {
+		alturaTriangulo = 3;
+	}
+
+	var retorno = R.pipe(
+									R.add(1),
+									R.range(1),
+									R.map(
+										R.pipe(
+											R.repeat('#'),
+											R.join('')
+										)
+									),
+									R.join('\n')
+								)(alturaTriangulo);
+
+	return retorno;
+}
+
+function geraTabuleiro(tamanho) {
 	var retorno = "";
 
 	for (var j = 0; j < tamanho; j++) {
@@ -24,7 +64,7 @@ function solucaoNaoFuncional(tamanho) {
 	return retorno;
 }
 
-function solucaoFuncional(largura) {
+function geraTabuleiroFuncional(largura) {
 
 	const isLastCellOfRow = R.curry((width, n) => { return (n % width) === (width - 1); });
 
@@ -61,7 +101,8 @@ module.exports = function (usarSolucaoFuncional) {
 
 	var exports = {};
 	
-	exports.geraTabuleiro = usarSolucaoFuncional ? solucaoFuncional : solucaoNaoFuncional;
+	exports.geraTriangulo = usarSolucaoFuncional ? geraTrianguloFuncional : geraTriangulo; 
+	exports.geraTabuleiro = usarSolucaoFuncional ? geraTabuleiroFuncional : geraTabuleiro; 
 
 	return exports;
 };
