@@ -48,6 +48,88 @@ describe("Gerar o triângulo", function() {
 
 });
 
+/** === FizzBuzz ===
+ * 
+ * Escreva um programa que imprima (usando console.log())
+ * todos os números de 1 a 100, exceto que, para números divisíveis por 3,
+ * ele imprima Fizz ao invés do número, e para números divisíveis por 5 
+ * (e não 3), ele imprima Buzz.
+ * 
+ * Quando você tiver o programa funcionando, modifique-o para imprimir
+ * FizzBuzz para números que são divisíveis por ambos os números 3 e 5.
+ * 
+ * (Isto é na verdade uma pergunta de entrevista usada para eliminar
+ * uma porcentagem significativa de candidatos programadores.
+ * Então, se você resolvê-la, você está autorizado de se sentir
+ * bem consigo mesmo).
+ */
+
+describe("Gerar FizzBuzz", function() {
+
+	it("define a função", function () {
+		expect(capitulo2.geraFizzBuzz).toBeDefined();
+	});
+
+	it("lança exception ao receber números menores que 1 e maiores que 100", function () {
+		var funcaoComErro1 = capitulo2.geraFizzBuzz.bind (null, 0),
+				funcaoComErro2 = capitulo2.geraFizzBuzz.bind (null, 101);
+
+		expect(funcaoComErro1).toThrow();
+		expect(funcaoComErro2).toThrow();
+	});
+
+	it("não lança exception ao receber números entre 1 e 100", function () {
+		var funcaoComErro1 = capitulo2.geraFizzBuzz.bind (null, 1),
+				funcaoComErro2 = capitulo2.geraFizzBuzz.bind (null, 100);
+
+		expect(funcaoComErro1).not.toThrow();
+		expect(funcaoComErro2).not.toThrow();
+	});
+
+	it("escreve no console.log o número", function () {
+
+		spyOn(console, 'log');
+
+		var numero = 1;
+
+		capitulo2.geraFizzBuzz(numero);
+
+		expect(console.log).toHaveBeenCalledWith(numero);
+	});
+
+	it("escreve no console.log \"Fizz\" quando o número for divisível por 3", function () {
+
+		spyOn(console, 'log');
+
+		var numero = 3;
+		
+		capitulo2.geraFizzBuzz(numero);
+		expect(console.log).toHaveBeenCalledWith('Fizz');
+	});
+
+	it("escreve no console.log \"Buzz\" quando o número for divisível por 5", function () {
+
+		spyOn(console, 'log');
+
+		var numero = 5;
+
+		capitulo2.geraFizzBuzz(numero);
+
+		expect(console.log).toHaveBeenCalledWith('Buzz');
+	});
+
+	it("escreve no console.log \"FizzBuzz\" quando o número for divisível por 3 e por 5 ao mesmo tempo", function () {
+
+		spyOn(console, 'log');
+
+		var numero = 15;
+
+		capitulo2.geraFizzBuzz(numero);
+
+		expect(console.log).toHaveBeenCalledWith('FizzBuzz');
+	});
+});
+
 /** === Tabuleiro de Xadrez ===
  * 
  * Escreva um programa que cria uma string que representa uma grade 8x8,

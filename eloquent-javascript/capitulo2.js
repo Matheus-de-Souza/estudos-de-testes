@@ -44,7 +44,40 @@ function geraTrianguloFuncional (alturaTriangulo) {
 	return retorno;
 }
 
-function geraTabuleiro(tamanho) {
+function geraFizzBuzz (numero) {
+	if (numero < 1 || numero > 100) {
+		throw Exception();
+	} else {
+		if (numero % 3 === 0 && numero % 5 === 0) {
+			console.log('FizzBuzz');
+		} else if (numero % 3 === 0) {
+			console.log('Fizz');
+		} else if (numero % 5 === 0) {
+			console.log('Buzz');
+		} else {
+			console.log(numero);
+		}
+	}
+}
+
+function geraFizzBuzzFuncional (numero) {
+	const launchException = () => { throw Exception (); };
+
+	const isDivisibleBy3 = (n) => n % 3 === 0;
+	const isDivisibleBy5 = (n) => n % 5 === 0;
+	const isDivisibleBy3And5 = (n) => n % 3 === 0 && n % 5 === 0;
+
+	R.cond ([
+		[R.lt(R.__, 1), launchException],
+		[R.gt(R.__, 100), launchException],
+		[isDivisibleBy3And5, (n) => console.log('FizzBuzz')],
+		[isDivisibleBy3, (n) => console.log('Fizz')],
+		[isDivisibleBy5, (n) => console.log('Buzz')],
+		[R.T, (n) => console.log(n)]
+	])(numero);
+}
+
+function geraTabuleiro (tamanho) {
 	var retorno = "";
 
 	for (var j = 0; j < tamanho; j++) {
@@ -64,7 +97,7 @@ function geraTabuleiro(tamanho) {
 	return retorno;
 }
 
-function geraTabuleiroFuncional(largura) {
+function geraTabuleiroFuncional (largura) {
 
 	const isLastCellOfRow = R.curry((width, n) => { return (n % width) === (width - 1); });
 
@@ -101,8 +134,9 @@ module.exports = function (usarSolucaoFuncional) {
 
 	var exports = {};
 	
-	exports.geraTriangulo = usarSolucaoFuncional ? geraTrianguloFuncional : geraTriangulo; 
-	exports.geraTabuleiro = usarSolucaoFuncional ? geraTabuleiroFuncional : geraTabuleiro; 
+	exports.geraTriangulo = usarSolucaoFuncional ? geraTrianguloFuncional : geraTriangulo;
+	exports.geraFizzBuzz  = usarSolucaoFuncional ? geraFizzBuzzFuncional  : geraFizzBuzz;
+	exports.geraTabuleiro = usarSolucaoFuncional ? geraTabuleiroFuncional : geraTabuleiro;
 
 	return exports;
 };
