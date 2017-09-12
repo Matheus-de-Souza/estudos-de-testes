@@ -1,4 +1,8 @@
 
+var usarSolucaoFuncional = true;
+
+var capitulo3 = require("./capitulo3.js")(usarSolucaoFuncional);
+
 /** === Mínimo ===
  * 
  * O capítulo anterior introduziu a função Math.min que retorna o seu menor argumento.
@@ -18,6 +22,53 @@
  * declarações de retorno (return).
  * 
  */
+
+describe("Obter mínimo", function() {
+
+	it("define a função", function () {
+		expect(capitulo3.min).toBeDefined();
+	});
+
+	it("retornar o valor mínimo", function () {
+		let nr1 = 0, nr2 = 10;
+		expect(capitulo3.min(nr1, nr2)).toBe(0);
+		nr1 = 0;
+		nr2 = -10;
+		expect(capitulo3.min(nr1, nr2)).toBe(-10);
+	});
+
+	it("Lança exceção se a função for chamada com nenhum número", function () {
+		const funcaoSemArgumentos = capitulo3.min.bind(null);
+
+		expect(funcaoSemArgumentos).toThrow();
+	});
+
+	it("Lança exceção se a função for chamada com apenas um número", function () {
+		const funcaoComApenas1Argumento = capitulo3.min.bind(null, 1);
+
+		expect(funcaoComApenas1Argumento).toThrow();
+	});
+
+	it("Lança exceção se algum dos valores não for um número", function () {
+		let nr = 12, letra = 'a', objeto = {};
+
+		const primeiroNumeroInvalido = capitulo3.min.bind(null, letra, nr);
+		const segundoNumeroInvalido  = capitulo3.min.bind(null, nr, objeto);
+
+		expect(primeiroNumeroInvalido).toThrow();
+		expect(segundoNumeroInvalido).toThrow();
+	});
+
+	it("Não lança exceção se algum dos valores for Infinity", function () {
+		let nr = 12, infinityPositivo = Infinity, infinityNegativo = -Infinity;
+
+		const funcaoComArgumentoInfinityPositivo = capitulo3.min.bind(null, infinityPositivo, nr);
+		const funcaoComArgumentoInfinityNegativo = capitulo3.min.bind(null, nr, infinityNegativo);
+
+		expect(funcaoComArgumentoInfinityPositivo).not.toThrow();
+		expect(funcaoComArgumentoInfinityNegativo).not.toThrow();
+	});
+});
 
 /** === Recursão ===
  *
