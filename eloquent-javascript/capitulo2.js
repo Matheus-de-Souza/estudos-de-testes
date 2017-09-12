@@ -1,26 +1,26 @@
 
-var R = require("ramda");
+const R = require('ramda');
 
 const isOdd = (n) => n % 2 === 0;
 const isEven = (n) => !isOdd(n);
 
 function geraTriangulo (alturaTriangulo) {
-	var retorno = "";
+	let result = '';
 	
 	if (!alturaTriangulo) {
 		alturaTriangulo = 3;
 	}
 
-	for (var i = 0; i < alturaTriangulo; i++) {
-		for (var j = 0; j <= i; j++) {
-			retorno += "#";
+	for (let i = 0; i < alturaTriangulo; i++) {
+		for (let j = 0; j <= i; j++) {
+			result += '#';
 		}
-		retorno += "\n";
+		result += '\n';
 	}
 
-	retorno = retorno.slice(0, -1);
+	result = result.slice(0, -1);
 
-	return retorno;
+	return result;
 }
 
 function geraTrianguloFuncional (alturaTriangulo) {
@@ -29,7 +29,7 @@ function geraTrianguloFuncional (alturaTriangulo) {
 		alturaTriangulo = 3;
 	}
 
-	var retorno = R.pipe(
+	let result = R.pipe(
 									R.add(1),
 									R.range(1),
 									R.map(
@@ -41,7 +41,7 @@ function geraTrianguloFuncional (alturaTriangulo) {
 									R.join('\n')
 								)(alturaTriangulo);
 
-	return retorno;
+	return result;
 }
 
 function geraFizzBuzz (numero) {
@@ -78,18 +78,18 @@ function geraFizzBuzzFuncional (numero) {
 }
 
 function geraTabuleiro (tamanho) {
-	var retorno = "";
+	let retorno = '';
 
 	for (var j = 0; j < tamanho; j++) {
 		for (var i = 0; i < tamanho; i++) {
 			if (isEven(j)) {
-				retorno += isEven(i) ? "#" : " "; 
+				retorno += isEven(i) ? '#' : ' '; 
 			} else {
-				retorno += isEven(i) ? " " : "#";
+				retorno += isEven(i) ? ' ' : '#';
 			}
 		}
 
-		retorno += "\n";
+		retorno += '\n';
 	}
 
 	retorno = retorno.slice(0, -1);
@@ -105,10 +105,10 @@ function geraTabuleiroFuncional (largura) {
 	const isRowEven = R.curry((width, n) => { return isEven(getRow(width, n)); });
 	const isRowOdd  = R.curry((width, n) => { return !isRowEven(width, n); });
 
-	const returnsSharp     = () => "#";
-	const returnsSpace     = () => " ";
-	const returnsSharpAndBreakLine = () => "#\n";
-	const returnsSpaceAndBreakLine = () => " \n";
+	const returnsSharp = () => '#';
+	const returnsSpace = () => ' ';
+	const returnsSharpAndBreakLine = () => '#\n';
+	const returnsSpaceAndBreakLine = () => ' \n';
 
 	const result = R.pipe(
 		R.multiply(largura),
@@ -131,12 +131,9 @@ function geraTabuleiroFuncional (largura) {
 }
 
 module.exports = function (usarSolucaoFuncional) {
-
-	var exports = {};
-	
-	exports.geraTriangulo = usarSolucaoFuncional ? geraTrianguloFuncional : geraTriangulo;
-	exports.geraFizzBuzz  = usarSolucaoFuncional ? geraFizzBuzzFuncional  : geraFizzBuzz;
-	exports.geraTabuleiro = usarSolucaoFuncional ? geraTabuleiroFuncional : geraTabuleiro;
-
-	return exports;
+	return {
+		geraTriangulo: usarSolucaoFuncional ? geraTrianguloFuncional : geraTriangulo,
+		geraFizzBuzz:  usarSolucaoFuncional ? geraFizzBuzzFuncional  : geraFizzBuzz,
+		geraTabuleiro: usarSolucaoFuncional ? geraTabuleiroFuncional : geraTabuleiro
+	};
 };
