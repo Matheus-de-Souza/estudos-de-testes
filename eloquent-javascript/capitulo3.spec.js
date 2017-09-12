@@ -106,6 +106,41 @@ describe("Obter mínimo", function() {
  * 
  */
 
+describe("É par ou impar?", function() {
+
+	it("define a função", function () {
+		expect(capitulo3.isEven).toBeDefined();
+	});
+
+	it("retorna \"true\" ao receber valores pares", function () {
+
+		let numeros = [2,4,22,36,50,1000,1234];
+
+		for(let numero of numeros) {
+			expect(capitulo3.isEven(numero)).toBe(true);
+		}
+	});
+
+	it("retorna \"false\" ao receber valores ímpares", function () {
+
+		let numeros = [1,3,13,35,51,1001,12345];
+
+		for(let numero of numeros) {
+			expect(capitulo3.isEven(numero)).toBe(false);
+		}
+	});
+
+	it("lança stackoverflow ao receber um valor negativo", function () {
+
+		let numero = -1;
+
+		const vaiExplodir = capitulo3.isEven.bind(null, numero);
+
+		expect(vaiExplodir).toThrowError(RangeError);
+	});
+
+});
+
 /** === Contando feijões ===
  *
  * Você pode acessar o N-ésimo caractere, ou letra, de uma string escrevendo "string".charAt(N),
