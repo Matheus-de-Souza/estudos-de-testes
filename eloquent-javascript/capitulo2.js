@@ -46,7 +46,7 @@ function geraTrianguloFuncional (alturaTriangulo) {
 
 function geraFizzBuzz (numero) {
 	if (numero < 1 || numero > 100) {
-		throw Exception();
+		throw 'Essa função aceita somente números de 1 a 100';
 	} else {
 		if (numero % 3 === 0 && numero % 5 === 0) {
 			console.log('FizzBuzz');
