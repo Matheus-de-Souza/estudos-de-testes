@@ -79,6 +79,9 @@ describe("Gerar FizzBuzz", function() {
 	});
 
 	it("não lança exception ao receber números entre 1 e 100", function () {
+
+		spyOn(console, 'log');
+
 		var funcaoComErro1 = capitulo2.geraFizzBuzz.bind (null, 1),
 				funcaoComErro2 = capitulo2.geraFizzBuzz.bind (null, 100);
 
