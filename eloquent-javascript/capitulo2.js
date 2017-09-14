@@ -2,7 +2,7 @@
 const R = require('ramda');
 
 const isOdd = (n) => n % 2 === 0;
-const isEven = (n) => !isOdd(n);
+const isEven = R.compose(R.not, isOdd);
 
 function geraTriangulo (alturaTriangulo) {
 	let result = '';
@@ -61,18 +61,16 @@ function geraFizzBuzz (numero) {
 }
 
 function geraFizzBuzzFuncional (numero) {
-	const launchException = () => { throw Exception (); };
 
-	const isDivisibleBy3 = (n) => n % 3 === 0;
-	const isDivisibleBy5 = (n) => n % 5 === 0;
-	const isDivisibleBy3And5 = (n) => n % 3 === 0 && n % 5 === 0;
+	const launchException = () => { throw Exception (); };
+	const isDivisibleBy = (divisibleBy) => (n) => n % divisibleBy === 0;
 
 	R.cond ([
 		[R.lt(R.__, 1), launchException],
 		[R.gt(R.__, 100), launchException],
-		[isDivisibleBy3And5, (n) => console.log('FizzBuzz')],
-		[isDivisibleBy3, (n) => console.log('Fizz')],
-		[isDivisibleBy5, (n) => console.log('Buzz')],
+		[R.both(isDivisibleBy(3), isDivisibleBy(5)), (n) => console.log('FizzBuzz')],
+		[isDivisibleBy(3), (n) => console.log('Fizz')],
+		[isDivisibleBy(5), (n) => console.log('Buzz')],
 		[R.T, (n) => console.log(n)]
 	])(numero);
 }
@@ -99,16 +97,11 @@ function geraTabuleiro (tamanho) {
 
 function geraTabuleiroFuncional (largura) {
 
-	const isLastCellOfRow = R.curry((width, n) => { return (n % width) === (width - 1); });
+	const isLastCellOfRow = (width) => (n) => { return (n % width) === (width - 1); };
 
 	const getRow    = R.curry((width, n) => { return Math.floor(n / width); });
 	const isRowEven = R.curry((width, n) => { return isEven(getRow(width, n)); });
 	const isRowOdd  = R.curry((width, n) => { return !isRowEven(width, n); });
-
-	const returnsSharp = () => '#';
-	const returnsSpace = () => ' ';
-	const returnsSharpAndBreakLine = () => '#\n';
-	const returnsSpaceAndBreakLine = () => ' \n';
 
 	const result = R.pipe(
 		R.multiply(largura),
@@ -116,11 +109,11 @@ function geraTabuleiroFuncional (largura) {
 		R.range(0),
 		R.map(
 			R.cond([
-				[R.allPass([isRowEven(largura), isLastCellOfRow(largura)]), returnsSharpAndBreakLine],
-				[R.allPass([isRowOdd(largura), isLastCellOfRow(largura)]), returnsSpaceAndBreakLine],
-				[R.allPass([isRowOdd(largura), isOdd]), returnsSharp],
-				[R.allPass([isRowEven(largura), isEven]), returnsSharp],
-				[R.T, returnsSpace]
+				[R.allPass([isRowEven(largura), isLastCellOfRow(largura)]), R.always('#\n')],
+				[R.allPass([isRowOdd(largura), isLastCellOfRow(largura)]), R.always(' \n')],
+				[R.allPass([isRowOdd(largura), isOdd]), R.always('#')],
+				[R.allPass([isRowEven(largura), isEven]), R.always('#')],
+				[R.T, R.always(' ')]
 			])
 		),
 		R.join(''),
