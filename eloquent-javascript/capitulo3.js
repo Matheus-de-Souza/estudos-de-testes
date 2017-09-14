@@ -8,12 +8,15 @@ function min (n1, n2) {
 	return (n1 < n2) ? n1 : n2;
 }
 
-// Não tem como deixar mais funcional...
 function minFuncional (n1, n2) {
-	if (isNaN(n1) || isNaN(n2)) {
-		throw 'São necessários dois números como argumento!';
-	}
-	return (n1 < n2) ? n1 : n2;
+
+	var getMinAcc = (acc, currentNumber) => R.lt(acc, currentNumber) ? acc : currentNumber;
+
+	return R.cond([
+		[R.all(R.is(Number)), R.reduce(getMinAcc, Infinity)],
+		[R.T, () => { throw 'São necessários dois números como argumento!'; }], 
+	]
+	)([n1, n2]);
 }
 
 function isEven (numero) {
@@ -26,15 +29,16 @@ function isEven (numero) {
 	} 
 }
 
-// Não dá pra fazer mais funcional também...
+// Funcionar funciona... mas com números maiores que 4000 dá stackoveflow 
 function isEvenFuncional (numero) {
-	if (numero === 0) {
-		return true;
-	} else if (numero === 1) {
-		return false;
-	} else {
-		return isEvenFuncional(numero - 2);
-	} 
+	return R.cond ([
+		[R.equals(0), R.T],
+		[R.equals(1), R.F],
+		[R.T, R.pipe(
+			R.subtract(R.__, 2),
+			isEvenFuncional
+		)]
+	])(numero);
 }
 
 function countBs (input) {
