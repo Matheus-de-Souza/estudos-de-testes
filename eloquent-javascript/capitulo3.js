@@ -37,9 +37,68 @@ function isEvenFuncional (numero) {
 	} 
 }
 
+function countBs (input) {
+	if (typeof input !== 'string') {
+		throw 'Argumento inválido! Use uma string!';
+	}
+	let counter = 0;
+	for (var i = 0; i < input.length; ++i) {
+		if (input.charAt(i) === 'B') {
+			++counter;
+		}
+	}
+	return counter;
+}
+
+function countBsFuncional (input) {
+
+	const accumulatorIfCharIsB = (acc, char) => char === 'B' ? (++acc) : acc;
+
+	return R.ifElse (
+		R.is(String),
+			R.reduce (accumulatorIfCharIsB, 0),
+			() => { throw 'Argumento inválido! Use uma string!'; }
+	)(input);
+}
+
+function countChar (input, charToFind) {
+	if (typeof input !== 'string') {
+		throw 'Argumento inválido! Use uma string!';
+	}
+	if (arguments.length != 2) {
+		throw 'São necessários dois argumentos!';
+	}
+	let counter = 0;
+	for (var i = 0; i < input.length; ++i) {
+		if (input.charAt(i) === charToFind) {
+			++counter;
+		}
+	}
+	return counter;
+}
+
+function countCharFuncional (input, char) {
+	if (typeof input !== 'string') {
+		throw 'Argumento inválido! Use uma string!';
+	}
+	if (arguments.length != 2) {
+		throw 'São necessários dois argumentos!';
+	}
+
+	const accumulatorIfCharIs = (charToFind) => (acc, currentChar) => currentChar === charToFind ? (++acc) : acc;
+
+	return R.ifElse (
+		R.is(String),
+			R.reduce (accumulatorIfCharIs(char), 0),
+			() => { throw 'Argumento inválido! Use uma string!'; }
+	)(input);
+}
+
 module.exports = function (usarSolucaoFuncional) {
 	return {
 		min : usarSolucaoFuncional ? minFuncional : min,
-		isEven : usarSolucaoFuncional ? isEvenFuncional : isEven
+		isEven : usarSolucaoFuncional ? isEvenFuncional : isEven,
+		countBs : usarSolucaoFuncional ? countBsFuncional : countBs,
+		countChar : usarSolucaoFuncional ? countCharFuncional : countChar
 	};
 };

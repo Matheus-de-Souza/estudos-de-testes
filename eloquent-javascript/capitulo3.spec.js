@@ -165,3 +165,59 @@ describe("É par ou impar?", function() {
  * // → 4
  *
  */
+describe("Contando feijões", function() {
+
+	it("define a função countBs", function () {
+		expect(capitulo3.countBs).toBeDefined();
+	});
+
+	it("lança exceção se receber um argumento que não seja uma string (countBs)", function () {
+
+		const argumentosInvalidos = [1,2, {}, null, function () {}];
+
+		for(let arg of argumentosInvalidos) {
+			let lancaExcecao = capitulo3.countBs.bind(null, arg); 
+			expect(lancaExcecao).toThrow('Argumento inválido! Use uma string!');
+		}
+	});
+
+	it("conta quantidade de \"B\" na string (countBs)", function () {
+
+		const strings = ['BBC', 'BBbBC', 'ABC', 'CCCCCCB', 'bbCCbb'];
+		const results = [2,3,1,1,0];
+
+		for(let i in strings) {
+			expect(capitulo3.countBs(strings[i])).toBe(results[i]);
+		} 
+	});
+
+	it("define a função countChar", function () {
+		expect(capitulo3.countChar).toBeDefined();
+	});
+
+	it("lança exceção se receber menos que dois argumentos (countChar)", function () {
+
+		let lancaExcecao = capitulo3.countChar.bind(null, 'asd');
+		expect(lancaExcecao).toThrow('São necessários dois argumentos!');
+	});
+
+	it("lança exceção se receber argumentos que não seja strings (countChar)", function () {
+
+		const argumentosInvalidos = [1,2, {}, null, function () {}];
+
+		for(let arg of argumentosInvalidos) {
+			let lancaExcecao = capitulo3.countChar.bind(null, arg); 
+			expect(lancaExcecao).toThrow('Argumento inválido! Use uma string!');
+		}
+	});
+
+	it("conta quantidade de um certo caracter na string", function () {
+
+		const strings = [['kakkerlak', 'k'], ['matheus','h'], ['abacate', 'a'], ['there is no chupits', 'i'], ['functional programming rules', 'm']];
+		const results = [4,1,3,2,2];
+
+		for(let i in strings) {
+			expect(capitulo3.countChar(strings[i][0], strings[i][1])).toBe(results[i]);
+		} 
+	});
+});
