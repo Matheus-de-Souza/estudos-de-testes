@@ -114,7 +114,7 @@ describe("É par ou impar?", function() {
 
 	it("retorna \"true\" ao receber valores pares", function () {
 
-		let numeros = [2,4,22,36,50,1000,1234];
+		let numeros = [2,4,22,36,50,1000];
 
 		for(let numero of numeros) {
 			expect(capitulo3.isEven(numero)).toBe(true);
@@ -123,7 +123,7 @@ describe("É par ou impar?", function() {
 
 	it("retorna \"false\" ao receber valores ímpares", function () {
 
-		let numeros = [1,3,13,35,51,1001,4001];
+		let numeros = [1,3,13,35,51,1001];
 
 		for(let numero of numeros) {
 			expect(capitulo3.isEven(numero)).toBe(false);
