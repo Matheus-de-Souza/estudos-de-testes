@@ -59,122 +59,172 @@ const capitulo4 = require('./capitulo4')(usarSolucaoFuncional);
  * do que o valor de início. Dessa forma, ao invés de ficar preso em um
  *  loop infinito, range(5, 2) retorna algo relevante.
  *
-**/  
+**/
+
 
 describe('A soma de um intervalo ', function () {
-	it('define a função range', function () {
-		expect(capitulo4.range).toBeDefined();
-	});
+	xdescribe('Função "range" ', function () {
+		it('define a função range', function () {
+			expect(capitulo4.range).toBeDefined();
+		});
 
-	it('lança exceção se o número de argumento for diferente de 2', function () {
-		const lancaExcecao = [
-			capitulo4.range.bind(null),
-			capitulo4.range.bind(null, 1),
-			capitulo4.range.bind(null, 1,2,3)
-		];
+		it('lança exceção se o número de argumento for diferente de 2', function () {
+			const lancaExcecao = [
+				capitulo4.range.bind(null),
+				capitulo4.range.bind(null, 1),
+				capitulo4.range.bind(null, 1,2,3)
+			];
 
-		for (const fn of lancaExcecao) {
-			expect(fn).toThrow('Número de argumentos inválido! Apenas 2!'); 
-		}
-	});
-
-	it('lança exceção se os argumentos não forem números', function () {
-		const lancaExcecao = [
-			capitulo4.range.bind(null, 'asd', 'dsa'),
-			capitulo4.range.bind(null, 123, 'asd'),
-			capitulo4.range.bind(null, 'asd', 123),
-			capitulo4.range.bind(null, {}, 123),
-			capitulo4.range.bind(null, 123, {})
-		];
-
-		for (const fn of lancaExcecao) {
-			expect(fn).toThrow('Argumentos inválidos! Devem ser apenas números!'); 
-		}
-		expect(capitulo4.range).toBeDefined();
-	});
-
-	it('devolve um array com os intervalos fornecidos', function () {
-		const tuplasDeTeste = [
-			{ in: [1,2], 
-				out: [1,2]
-			},
-			{ in: [1,3], 
-				out: [1,2,3]
-			},
-			{ in: [2,8], 
-				out: [2,3,4,5,6,7,8]
-			},
-			{ in: [7,8], 
-				out: [7,8]
-			},
-			{ in: [8,8], 
-				out: [8]
+			for (const fn of lancaExcecao) {
+				expect(fn).toThrow('Número de argumentos inválido! Apenas 2!'); 
 			}
-		];
+		});
 
-		for(const tupla of tuplasDeTeste) {
-			expect(capitulo4.range(tupla.in[0], tupla.in[1])).toEqual(tupla.out);
-		}
-	});
+		it('lança exceção se os argumentos não forem números', function () {
+			const lancaExcecao = [
+				capitulo4.range.bind(null, 'asd', 'dsa'),
+				capitulo4.range.bind(null, 123, 'asd'),
+				capitulo4.range.bind(null, 'asd', 123),
+				capitulo4.range.bind(null, {}, 123),
+				capitulo4.range.bind(null, 123, {})
+			];
 
-	it('define a função sum', function () {
-		expect(capitulo4.sum).toBeDefined();
-	});
-
-	it('lança exceção se não receber argumentos', function () {
-		const lancaExcecao = [
-			capitulo4.sum.bind(null)
-		];
-
-		for (const fn of lancaExcecao) {
-			expect(fn).toThrow('Número de argumentos inválido! Apenas 1 array!'); 
-		}
-	});
-
-	it('lança exceção se receber mais de um argumento', function () {
-		const lancaExcecao = [
-			capitulo4.sum.bind(null, [], [])
-		];
-
-		for (const fn of lancaExcecao) {
-			expect(fn).toThrow('Número de argumentos inválido! Apenas 1 array!'); 
-		}
-	});
-
-	it('lança exceção se receber um argumento que não seja um array', function () {
-		const lancaExcecao = [
-			capitulo4.sum.bind(null, ''),
-			capitulo4.sum.bind(null, 1),
-			capitulo4.sum.bind(null, {})
-		];
-
-		for (const fn of lancaExcecao) {
-			expect(fn).toThrow('Argumento inválido! Apenas 1 array!'); 
-		}
-	});
-
-	it('soma os valores de todos números do array', function () {
-		const tuplasDeTeste = [
-			{ in: [1,2], 
-				out: 3
-			},
-			{ in: [1,2,3], 
-				out: 6
-			},
-			{ in: [2], 
-				out: 2
-			},
-			{ in: [7,13,20,100,1000], 
-				out: 1140
-			},
-			{ in: [8,8,10,10,10,10], 
-				out: 56
+			for (const fn of lancaExcecao) {
+				expect(fn).toThrow('Argumentos inválidos! Devem ser apenas números!'); 
 			}
-		];
+			expect(capitulo4.range).toBeDefined();
+		});
 
-		for(const tupla of tuplasDeTeste) {
-			expect(capitulo4.sum(tupla.in)).toEqual(tupla.out);
-		}
+		it('devolve um array com os intervalos fornecidos', function () {
+			const tuplasDeTeste = [
+				{ in: [1,2], 
+					out: [1,2]
+				},
+				{ in: [1,3], 
+					out: [1,2,3]
+				},
+				{ in: [2,8], 
+					out: [2,3,4,5,6,7,8]
+				},
+				{ in: [7,8], 
+					out: [7,8]
+				},
+				{ in: [8,8], 
+					out: [8]
+				}
+			];
+
+			for(const tupla of tuplasDeTeste) {
+				expect(capitulo4.range(tupla.in[0], tupla.in[1])).toEqual(tupla.out);
+			}
+		});
+		
+		it('devolve um array com os intervalos fornecidos (utilizando passos maiores que 1)', function () {
+			const tuplasDeTeste = [
+				{ in: [1, 10, 2], 
+					out: [1, 3, 5, 7, 9]
+				},
+				{ in: [1,4,2], 
+					out: [1,3]
+				},
+				{ in: [2, 8, 4], 
+					out: [2,6]
+				},
+				{ in: [7,18, 5], 
+					out: [7, 12, 17]
+				},
+				{ in: [8,8, 10], 
+					out: [8]
+				}
+			];
+
+			for(const tupla of tuplasDeTeste) {
+				expect(capitulo4.range(...tupla.in)).toEqual(tupla.out);
+			}
+		});
+		
+		it('devolve um array com os intervalos fornecidos (utilizando passos negativos)', function () {
+			const tuplasDeTeste = [
+				{ in: [10, 2, -1], 
+					out: [10,9,8,7,6,5,4,3,2]
+				},
+				{ in: [4,1,-2], 
+					out: [4,2]
+				},
+				{ in: [8,2, -4], 
+					out: [8, 4]
+				},
+				{ in: [20, 0, -4], 
+					out: [20,16,12,8,4,0 ]
+				}
+			];
+
+			for(const tupla of tuplasDeTeste) {
+				expect(capitulo4.range(...tupla.in)).toEqual(tupla.out);
+			}
+		});
+	});
+
+	xdescribe('Função "sum" ', function () {
+		it('define a função sum', function () {
+			expect(capitulo4.sum).toBeDefined();
+		});
+
+		it('lança exceção se não receber argumentos', function () {
+			const lancaExcecao = [
+				capitulo4.sum.bind(null)
+			];
+
+			for (const fn of lancaExcecao) {
+				expect(fn).toThrow('Número de argumentos inválido! Apenas 1 array!'); 
+			}
+		});
+
+		it('lança exceção se receber mais de um argumento', function () {
+			const lancaExcecao = [
+				capitulo4.sum.bind(null, [], [])
+			];
+
+			for (const fn of lancaExcecao) {
+				expect(fn).toThrow('Número de argumentos inválido! Apenas 1 array!'); 
+			}
+		});
+
+		it('lança exceção se receber um argumento que não seja um array', function () {
+			const lancaExcecao = [
+				capitulo4.sum.bind(null, ''),
+				capitulo4.sum.bind(null, 1),
+				capitulo4.sum.bind(null, {})
+			];
+
+			for (const fn of lancaExcecao) {
+				expect(fn).toThrow('Argumento inválido! Apenas 1 array!'); 
+			}
+		});
+
+		it('soma os valores de todos números do array', function () {
+			const tuplasDeTeste = [
+				{ in: [1,2], 
+					out: 3
+				},
+				{ in: [1,2,3], 
+					out: 6
+				},
+				{ in: [2], 
+					out: 2
+				},
+				{ in: [7,13,20,100,1000], 
+					out: 1140
+				},
+				{ in: [8,8,10,10,10,10], 
+					out: 56
+				}
+			];
+
+			for(const tupla of tuplasDeTeste) {
+				expect(capitulo4.sum(tupla.in)).toEqual(tupla.out);
+			}
+		});
 	});
 });
 
